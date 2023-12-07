@@ -3,9 +3,11 @@ package com.taskmanager.domain.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "activity_log")
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,10 +17,17 @@ public class ActivityLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String description;
-    private Date createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
 }
